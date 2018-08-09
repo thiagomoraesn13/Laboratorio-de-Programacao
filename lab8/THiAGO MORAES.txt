@@ -1,0 +1,123 @@
+//THiAGO MORAES -> 21452625
+//LPAV -> TP8 -> Expressões Regulares
+
+https://docs.google.com/a/icomp.ufam.edu.br/forms/d/142wqDl_ysYcYkdFm_iV9ukm2lb4JfDhYQeq2gDxrEj4/edit
+
+
+*********************************************
+//Questão 1 -> RG 
+[0-9][0-9][0-9][0-9][0-9][0-9][0-9][-][0-9]
+
+Dígitos de 0 a 9 em cada casa, sendo que o rg sao 8 dígitos e o último dígito é separado por um traço
+
+*********************************************
+
+//Questão 2 -> CEP
+[0-9][0-9][0-9][0-9][0-9][-][0-9][0-9][0-9]
+
+Basicamente a mesma ideia do RG, só diferindo na separação dos dígitos, por exemplo : 69099-113  
+
+
+*********************************************
+
+//Questão 3 -> CPF
+
+[0-9][0-9][0-9][.][0-9][0-9][0-9][.][0-9][0-9][0-9][-][0-9][0-9]
+
+Basicamente a mesma ideia das questões anteriores, só aumenta que a capacidade de dígitos é maior e a separação dos dígitos
+Importante lembrar que os devidos cuidados foram tomados
+Apenas inserir números e com suas quantidades válidas
+Essa observação é para as questões 1 a 3
+
+*********************************************
+
+//Questão 4 -> EMAIL
+
+[\w|_|.|-]+[@]([\w]+[.])+[\w]+
+
+A Expressão Regular acima aceita uma string qualquer
+Seguida de um '@' após isso precisa inserir outra string
+Seguida de '.' depois uma string qualquer podendo ter zero ou mais '.'
+
+*********************************************
+
+//Questão 5 -> URL
+
+(http|https)[:][\/][\/][\w]+[.][\w]([.]|[\w])+([\/]|[\w])+
+
+Expressão Regular para reconhecer url com padrões como esse por exemplo: https://bleach.zlx.com.br/
+Começa com 'http' pou 'https' seguindo de '//'' seguida de uma string, '.', por uma string, zeros ou mais '.'
+seguinda de zero ou mais / e strings
+
+*********************************************
+
+//Questao 6 -> Data de Nascimento
+
+([0-3][0-1]|[0-2][0-9])[\/]([1-1][0-2]|[0-0][0-9])[\/]([1-1][9-9][0-9][0-9])|([2-2][0-0][0-1][0-6])
+
+Expressão um pouco longa
+Estar no formato DD/MM/AAAA, sendo que DD está no intervalo de 1 à 31, MM está no intervalo de 01 à 12, e
+AAAA está no intervalo de 1900 à 2016;
+
+[0-3][0-1] -> caso a pessoa coloque o dia 30 ou 31
+[0-2][0-9] -> dias entre 01 a 29
+[1-1][0-2] -> Para os meses 10 a 12
+[0-0][0-9] -> Para os meses 01 ao 09
+[1-1][9-9][0-9][0-9])|([2-2][0-0][0-1][0-6])-> Para o ano de 1900 a 2016
+
+*********************************************
+
+//Questao 7 -> Nome
+
+^[A-Z][a-z][a-zA-Z|\s]{1,29}$
+
+O tamanho máximo do nome é de 30 caracteres, incluindo
+espaços em branco. Começar por uma letra e não tem
+caracteres especiais e nem dígitos;
+
+
+*********************************************
+
+
+//Questão 8 -> Telefone
+
+[0-9][0-9]\s[9-9][0-9][0-9][0-9][0-9][-][0-9][0-9][0-9][0-9]
+
+Estar no formato DD 9NNNN-NNNN
+
+Muito parecida com os questoes 1 a 3
+Dois dígitos para o DD um espaço seguido de um 9 mais 8 dígitos que podem variar de 0 a 9
+
+
+*********************************************
+
+
+//Questão 9 -> Preço do Produto
+
+^[R][$](([1-9][,][0-9][0-9])|([1-9][0-9][,][0-9][0-9])|([1-9][0-9][0-9][,][0-9][0-9])|([1-9][.][0-9][0-9][0-9][,][0-9][0-9])|([1-9][0-9][.][0-9][0-9][0-9][,][0-9][0-9])|([1-9][0-9][0-9][.][0-9][0-9][0-9][,][0-9][0-9]))$
+
+[R][$] -> Sempre aparecerar no início
+
+[1-9][,][0-9][0-9] -> para preços no formato 1,22 | 3,34 etc...Ou seja: 1 casa em seguida vírgula mais duas casas
+[1-9][0-9][,][0-9][0-9] -> para preços no formato 22,22 etc... Ou seja: 2 casas em seguida vírgula mais duas casas
+[1-9][0-9][0-9][,][0-9][0-9] -> 3 casas em seguida vírgula mais duas casas ->120,22
+Outros exemplos: 120.000,00 / 12.000,00 
+
+
+
+
+*********************************************
+
+//Questão 10 -> Senha
+
+^([A-Z]+)([a-z]+)([0-9]+)([\W]+)$
+
+A senha contem uma ou mais letras em caixa alta, uma
+ou mais letras em caixa baixa, um ou mais dígitos e um ou mais caracteres especiais. 
+
+[A-Z]+ -> Uma ou mais letras em caixa alta
+[a-z]+ -> Uma ou mais letras em caixa alta
+[0-9]+ ->  Uma ou mais dígitos
+([\W]+ -> Caracteres um ou mais
+
+*********************************************

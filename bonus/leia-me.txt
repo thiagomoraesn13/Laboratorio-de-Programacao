@@ -1,0 +1,11 @@
+
+Fiz esse script para as questões 1,2,3!!!
+
+Para executar o script
+
+No terminal do Linux faça:
+
+chmod +x script_executar.sh
+./script_excutar.sh
+
+

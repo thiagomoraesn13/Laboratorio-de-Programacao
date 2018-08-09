@@ -1,0 +1,4 @@
+
+Tempo Medio : 0.016372
+Média de comparacoes: 1502681
+Média das trocas: 2298271

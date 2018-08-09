@@ -1,0 +1,7 @@
+//THiAGO MORAES -> 21452625
+
+Para testar as funções:
+->Basta compilar o código e digitar o tamanho do vetor
+caso digite o valor 1000, o programa compilado irar executar 10 vezes e printar a média de: comparações, trocas e tempo.
+
+

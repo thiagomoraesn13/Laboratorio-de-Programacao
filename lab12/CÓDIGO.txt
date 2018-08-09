@@ -1,0 +1,377 @@
+//THiAGO MORAES
+//MATRÍCULA->21452625
+//LPA-TP12
+
+//ASSISTA O VÍDEO DA EXECUCAO //
+
+//https://circuits.io/circuits/2572014-arduino2/edit#breadboard
+
+/************************************************************************************************************/
+/***********************************************************************************************************/
+    //AQUI ESTOU SETANDO AS PORTAS PARA OS BOTOES, PARA O LED DO FORNO E DA PORTA, PARA BOTÕES PARA AUMENTAR E DIMUNUIR O
+    // DISPLAY
+    int DIMUNUIRTEMPERATURA = A0; //DIMINUIR O VOLUME DO MICROONDAS NO DISPLAY
+    int FORNO = A1; //BOTAO PARA AUMENTAR DIMINUIR FORNNO
+    int PORTA = A2; //BOTAO DA PORTA
+    int LEDVERDE = A3; //LED VERDE DA PORTA
+    int VOLUME_FORNOTEMPERATURA = 2; //BOTAO-AUMENTAR VOLUME DO FORNO E MOSTRAR DISPLAY
+    int LEDFORNO = 13; //LED VERMELHO 
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //AQUI É PARA SABERMOS OS ESTADOS DA PORTA, FORNO, CONTROLE DO DISPLAY E UM CONTADOR PARA PODERMOS COLOCAR PARA COZINHAR
+    int ESTADO_PORTA = 0; //PORTA
+    int INCREMENTAR_TEMPO = 0; //CONTROLE PARA AUMENTAR O TEMPO DO BOTAO FORNO
+    int DECREMENTAR_TEMPO = 0; //CONTROLE PARA AUMENTAR O TEMPO DO BOTAO FORNO
+    int ESTADO_FORNO = 0; //SABER SE O FORNO TA LIGADO OU NÃO 
+    int CONT = 0;  //PARA CONTROLARMOS A TEMPERATURA PARA SABERMOS OS MINUTOS/SEGUNDOS PARA COLOCAR PARA COZINHAR
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //SETANDO AS PINAGENS DO DISPLAY NAS PORTAS DO ARDUINO
+    //EXEMPLO: DP = 11, É O MESMO QUE PINO DP LIGADO NA PORTA 11 DO ARDUINO
+    //DUAS FLAGS UMA PARA O LED VERDE E OUTRA PARA O VERMELHO(FORNO)
+    //E A VARIVEL PARA O BUZZER (PIEZO)
+    int DP = 11, C = 3, D = 4, E = 5,B = 6,A =8,F = 9,G = 10, flagLedForno = 0, flagLEDVERDE = 0,piezo = A4;
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //SETANDO AS PINAGENS DO DISPLAY PARA I/O 
+    //SETANDO OS LED'S VERDE E VERMELHO PARA I/O
+    void setup() {
+        pinMode(LEDFORNO, OUTPUT); 
+        pinMode(LEDVERDE, OUTPUT);
+        pinMode(VOLUME_FORNOTEMPERATURA, INPUT); 
+        pinMode(DP, OUTPUT);
+        pinMode(C, OUTPUT);
+        pinMode(D, OUTPUT);
+        pinMode(E, OUTPUT);
+        pinMode(B, OUTPUT);
+        pinMode(A, OUTPUT);
+        pinMode(F, OUTPUT);
+        pinMode(G, OUTPUT);
+        pinMode(DIMUNUIRTEMPERATURA, INPUT);
+        pinMode(PORTA, INPUT);
+    }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //A FUNÇÃO ZERO() ATÉ A FUNÇÃO NOVE() SÃO PARA MOSTRAR O NÚMERO NO DISPLAY DE 7SEGMENTOS
+    //COMO USEI UMA LÓGICA INVERTIDA TIVE QUE NEGAR O HIGH PARA PODER ACENDER E NEGAR O LOW PARA APAGAR 
+    void DYSPLAY_ZERO() {
+        digitalWrite(DP, !LOW);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !HIGH);
+        digitalWrite(E, !HIGH);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !HIGH);
+        digitalWrite(G, !LOW);
+    }
+    void DYSPLAY_UM() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !LOW);
+        digitalWrite(E, !LOW);
+        digitalWrite(A, !LOW);
+        digitalWrite(F, !LOW);
+        digitalWrite(G, !LOW);
+    }
+    void DYSPLAY_DOIS() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !LOW);
+        digitalWrite(D, !HIGH);
+        digitalWrite(E, !HIGH);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !LOW);
+        digitalWrite(G, !HIGH);
+    }
+    void DYSPLAY_TRES() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !HIGH);
+        digitalWrite(E, !LOW);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !LOW);
+        digitalWrite(G, !HIGH);
+    }
+    void DYSPLAY_QUATRO() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !LOW);
+        digitalWrite(E, !LOW);
+        digitalWrite(A, !LOW);
+        digitalWrite(F, !HIGH);
+        digitalWrite(G, !HIGH);
+    }
+    void DYSPLAY_CINCO() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !LOW);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !HIGH);
+        digitalWrite(E, !LOW);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !HIGH);
+        digitalWrite(G, !HIGH);
+    }
+    void DYSPLAY_SEIS() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !LOW);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !HIGH);
+        digitalWrite(E, !HIGH);
+        digitalWrite(A, !LOW);
+        digitalWrite(F, !HIGH);
+        digitalWrite(G, !HIGH);
+    }
+    void DYSPLAY_SETE() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !LOW);
+        digitalWrite(E, !LOW);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !LOW);
+        digitalWrite(G, !LOW);
+    }
+    void DYSPLAY_OITO() {
+        digitalWrite(DP, !HIGH);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !HIGH);
+        digitalWrite(E, !HIGH);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !HIGH);
+        digitalWrite(G, !HIGH);
+    }
+    void DYSPLAY_NOVE() {
+        digitalWrite(DP, !LOW);
+        digitalWrite(B, !HIGH);
+        digitalWrite(C, !HIGH);
+        digitalWrite(D, !LOW);
+        digitalWrite(E, !LOW);
+        digitalWrite(A, !HIGH);
+        digitalWrite(F, !HIGH);
+        digitalWrite(G, !HIGH);
+    }
+
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //FUNCÃO PARA AUMENTAR O VOLUME DO FORNO E MOSTRA NO LED O INCREMENTO
+    void VOLUME_FORNO(){
+        INCREMENTAR_TEMPO = digitalRead(VOLUME_FORNOTEMPERATURA);
+        if(INCREMENTAR_TEMPO){
+            delay(100);
+            CONT = CONT + 1;
+        }
+        //MOSTRA NO DISPLAY O NUMERO APOS CLICAR-SE NO BOTAO PARA AUMENTAR O VOLUME DO FORNO
+        if(CONT==0){
+            DYSPLAY_ZERO();
+        }
+        if(CONT==1){
+            DYSPLAY_UM();
+        }
+        if(CONT==2){
+            DYSPLAY_DOIS();
+        }
+        if(CONT==3){
+            DYSPLAY_TRES();
+        }
+        if(CONT==4){
+            DYSPLAY_QUATRO();
+        }
+        if(CONT==5){
+            DYSPLAY_CINCO();
+        }
+        if(CONT==6){
+            DYSPLAY_SEIS();
+        }
+        if(CONT==7){
+            DYSPLAY_SETE();
+        }
+        if(CONT==8){
+            DYSPLAY_OITO();
+        }
+        if(CONT==9){
+            DYSPLAY_NOVE();
+        }
+    }     
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+
+    //FUNCÃO PARA DIMINUIR O VOLUME DO FORNO E MOSTRA NO DISPLAY O DECREMENTO
+    //BASICAMENTO É O INVERSO DA FUNCAO VOLUME_FORNO
+    void VOLUME2_FORNO(){
+        DECREMENTAR_TEMPO = digitalRead(DIMUNUIRTEMPERATURA);
+        if(DECREMENTAR_TEMPO){
+            delay(100);
+            CONT = CONT - 1; 
+        }
+        if(CONT==0){
+            DYSPLAY_ZERO();
+        }
+        if(CONT==1){
+            DYSPLAY_UM();
+        }
+        if(CONT==2){
+            DYSPLAY_DOIS();
+        }
+        if(CONT==3){
+            DYSPLAY_TRES();
+        }
+        if(CONT==4){
+            DYSPLAY_QUATRO();
+        }
+        if(CONT==5){
+            DYSPLAY_CINCO();
+        }
+        if(CONT==6){
+            DYSPLAY_SEIS();
+        }
+        if(CONT==7){
+            DYSPLAY_SETE();
+        }
+        if(CONT==8){
+            DYSPLAY_OITO();
+        }
+        if(CONT==9){
+            DYSPLAY_NOVE();
+        }
+    }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //FUNÇÃO PARA ACENDER O LED VERMELHO (FORNO)
+    void ACENDER_FORNO(){
+        if(ESTADO_FORNO == !digitalRead(FORNO)){
+            digitalWrite(LEDFORNO, HIGH); 
+            flagLedForno = 1; 
+        }
+    }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //FUNÇÃO PARA APAGAR O LED VERMELHO (FORNO)
+    void APAGAR_FORNO(){
+        if(ESTADO_FORNO == !digitalRead(FORNO) && flagLedForno == 1){
+            digitalWrite(LEDFORNO, LOW); /* apaga o led vermelho */
+            flagLedForno = 0;/* Marca que o led foi apagado*/
+        }
+    }
+
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //FUNCAO PARA  O LED VERDE (ABRIR A PORTA - LED ACESSO)
+    void ABRIR_PORTA(){
+        if(flagLedForno){ 
+            APAGAR_FORNO();  
+        }
+        if(ESTADO_PORTA == !digitalRead(PORTA)){ 
+            digitalWrite(LEDVERDE, HIGH);
+            flagLEDVERDE = 1; 
+
+        }        
+    }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //FUNCAO PARA FECHAR A PORTA (DESLIGAR LED VERDE)
+    void FECHANDO_PORTA(){
+        if(ESTADO_PORTA == !digitalRead(PORTA) && flagLEDVERDE == 1){
+            digitalWrite(LEDVERDE, LOW); 
+            flagLEDVERDE = 0;
+        }
+    }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+
+    //DECREMNENTAR TEMPO DO FORNO
+    void DECREMENTARTEMPO_DISPLAY(){
+        CONT = CONT - 1;
+        if(CONT==0){
+            DYSPLAY_ZERO();
+            digitalWrite(LEDFORNO, LOW);
+            tone(piezo, 500);
+            digitalWrite(LEDVERDE, HIGH);
+            delay(500);
+            noTone(piezo);
+            
+        }
+        if(CONT==1){
+            DYSPLAY_UM();
+            delay(1000);
+        }
+        if(CONT==2){
+            DYSPLAY_DOIS();
+            delay(1000);
+        }
+        if(CONT==3){
+            DYSPLAY_TRES();
+            delay(1000);
+        }
+        if(CONT==4){
+            DYSPLAY_QUATRO();
+            delay(1000);
+        }
+        if(CONT==5){
+            DYSPLAY_CINCO();
+            delay(1000);
+        }
+        if(CONT==6){
+            DYSPLAY_SEIS();
+            delay(1000);
+        }
+        if(CONT==7){
+            DYSPLAY_SETE();
+            delay(1000);
+        }
+        if(CONT==8){
+            DYSPLAY_OITO();
+            delay(1000);
+
+        }
+        if(CONT==9){
+            DYSPLAY_NOVE();
+            delay(1000);
+        }
+    }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+    //DESLIGAR O LED VERD
+    void espera_Acao(){
+      delay(1000);
+      digitalWrite(LEDVERDE, LOW);
+  }
+/************************************************************************************************************/
+    
+/***********************************************************************************************************/
+  //EXECUNTANDO AS FUNÇÕES DO MICROONDAS
+  void loop() {
+      ABRIR_PORTA();//ABRINDO PORTA
+      if(flagLEDVERDE){
+        delay(100);
+            FECHANDO_PORTA();//FECHAR FORNO
+        }
+        else{
+            VOLUME_FORNO(); //AUMENTAR FORNO E MOSTRA NO DISPLAY
+
+            if(CONT > 0){
+                VOLUME2_FORNO(); //DIMINUIR TEMPO DO FORNO E MOSTRA NO DISPLAY
+                ACENDER_FORNO(); //LIGANDO FORNO
+                if(flagLedForno){ 
+                    DECREMENTARTEMPO_DISPLAY(); //DECREMENTANDO FORNO E MOSTRANDO NO DISPLAY
+                }     
+            }
+        }
+    }
+/************************************************************************************************************/    
+/***********************************************************************************************************/
